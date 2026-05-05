@@ -1615,16 +1615,22 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
 <!-- SCROLL PROGRESS -->
 <div id="prog"></div>
 
-<!-- AUDIO -->
-<audio id="bgMusic" loop preload="none">
-  <source src="admv.mp3" type="audio/mpeg">
-</audio>
-
-<!-- MUSIC BTN -->
-<button class="music-btn" id="musicBtn" onclick="toggleMusic()" aria-label="Música">♪</button>
-
 <!-- TOAST -->
 <div id="toast"></div>
+
+<!-- AUDIO ambiental -->
+<audio id="bgMusic" src="admv.mp3" loop preload="auto"></audio>
+
+<!-- BOTÓN flotante de música -->
+<button id="musicBtn" class="music-btn" aria-label="Música de fondo">
+  <svg id="musicIcoPlay" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm12-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <svg id="musicIcoPause" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <rect x="6" y="4" width="4" height="16" rx="1.5" fill="currentColor"/>
+    <rect x="14" y="4" width="4" height="16" rx="1.5" fill="currentColor"/>
+  </svg>
+</button>
 
 
 <!-- ═══════════════ 1. HERO ════════════════════════════ -->
@@ -2611,17 +2617,6 @@ function countdown() {
   }
 }
 
-/* ── MUSIC ───────────────────────────────────────────── */
-const aud = document.getElementById('bgMusic');
-const mBtn = document.getElementById('musicBtn');
-let playing = false;
-
-function toggleMusic() {
-  if (playing) { aud.pause(); mBtn.innerHTML='♪'; mBtn.classList.remove('on'); }
-  else { aud.play().catch(()=>{}); mBtn.innerHTML='♬'; mBtn.classList.add('on'); }
-  playing = !playing;
-}
-
 /* ── RADIO → show/hide guest counter ────────────────── */
 document.querySelectorAll('input[name="att"]').forEach(r => {
   r.addEventListener('change', e => {
@@ -2901,49 +2896,57 @@ function toast(msg) {
   if(!audio || !btn) return;
   const icoPlay  = document.getElementById('musicIcoPlay');
   const icoPause = document.getElementById('musicIcoPause');
-  let playing = false;
 
-  function startMusic(){
-    if(playing) return;
-    audio.volume = 0.32;
-    audio.play().then(()=>{
-      playing = true;
-      icoPlay.style.display  = 'none';
-      icoPause.style.display = 'block';
-    }).catch(()=>{});
+  audio.volume = 0.32;
+
+  function syncIcons(){
+    const isPlaying = !audio.paused && !audio.ended;
+    if (icoPlay)  icoPlay.style.display  = isPlaying ? 'none'  : 'block';
+    if (icoPause) icoPause.style.display = isPlaying ? 'block' : 'none';
+    btn.classList.toggle('on', isPlaying);
   }
 
-  document.addEventListener('click',     startMusic, {once:true});
-  document.addEventListener('touchstart',startMusic, {once:true});
-  document.addEventListener('scroll',    startMusic, {once:true});
+  audio.addEventListener('play',  syncIcons);
+  audio.addEventListener('pause', syncIcons);
+  audio.addEventListener('ended', syncIcons);
+
+  let userPaused = false;
+
+  function autoStart(){
+    if (userPaused) return;
+    if (!audio.paused) return;
+    audio.play().catch(()=>{});
+  }
+
+  function removeAutoStart(){
+    document.removeEventListener('click',      autoStartOnce, true);
+    document.removeEventListener('touchstart', autoStartOnce, true);
+    document.removeEventListener('scroll',     autoStartOnce, true);
+  }
+  function autoStartOnce(e){
+    if (e.target === btn || btn.contains(e.target)) return;
+    autoStart();
+    removeAutoStart();
+  }
+  document.addEventListener('click',      autoStartOnce, true);
+  document.addEventListener('touchstart', autoStartOnce, true);
+  document.addEventListener('scroll',     autoStartOnce, true);
 
   btn.addEventListener('click', function(e){
     e.stopPropagation();
-    if(playing){
-      audio.pause();
-      playing = false;
-      icoPlay.style.display  = 'block';
-      icoPause.style.display = 'none';
+    if (audio.paused) {
+      userPaused = false;
+      audio.play().catch(()=>{});
     } else {
-      startMusic();
+      userPaused = true;
+      audio.pause();
     }
+    removeAutoStart();
   });
+
+  syncIcons();
 })();
 </script>
-
-<!-- Música ambiental -->
-<audio id="bgMusic" src="admv.mp3" loop preload="auto"></audio>
-
-<!-- Botón flotante de música -->
-<button id="musicBtn" class="music-btn" aria-label="Música de fondo">
-  <svg id="musicIcoPlay" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path d="M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm12-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-  <svg id="musicIcoPause" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="display:none">
-    <rect x="6" y="4" width="4" height="16" rx="1.5" fill="currentColor"/>
-    <rect x="14" y="4" width="4" height="16" rx="1.5" fill="currentColor"/>
-  </svg>
-</button>
 
 </body>
 </html>
