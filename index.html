@@ -286,17 +286,25 @@ section{padding:64px 22px}
   50%{opacity:.9;transform:scaleX(1)}
 }
 
-.h-date-wrap{margin-top:32px;position:relative}
+.h-date-wrap{
+  margin:32px auto 0;position:relative;
+  max-width:280px;padding:18px 22px 16px;
+  background:rgba(255,255,255,.32);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  backdrop-filter:blur(14px) saturate(140%);
+  border:1px solid rgba(255,255,255,.55);
+  border-radius:14px;
+  box-shadow:0 8px 28px rgba(107,91,78,.18),inset 0 1px 0 rgba(255,255,255,.6);
+  text-align:center;
+}
 .h-date{
   font-family:'Cormorant Garamond',serif;
-  font-size:14px;letter-spacing:6px;text-transform:uppercase;
-  color:var(--peach);
-  text-shadow:0 1px 6px rgba(255,255,255,.85);
+  font-size:15px;letter-spacing:6px;text-transform:uppercase;
+  color:var(--cream);font-weight:500;
 }
 .h-city{
-  font-size:9px;letter-spacing:4px;text-transform:uppercase;
-  color:var(--cream);opacity:.65;margin-top:10px;
-  text-shadow:0 1px 4px rgba(255,255,255,.7);
+  font-size:9.5px;letter-spacing:4.5px;text-transform:uppercase;
+  color:var(--peach-accent);opacity:.95;margin-top:8px;font-weight:500;
 }
 
 /* Scroll cue */
@@ -1540,6 +1548,60 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
 .rsvp-input::placeholder{color:var(--cream);opacity:.32}
 .rsvp-input:focus{border-color:rgba(144,158,141,.55)}
 .rsvp-submit-btn{max-width:100%;margin:18px auto 0;display:flex;justify-content:center;gap:8px}
+
+/* ── VERSE BLOCK · pull quote editorial ───────────────── */
+.verse-block{
+  padding:64px 22px 68px;
+  background:linear-gradient(180deg,var(--ink) 0%,var(--ink2) 50%,var(--ink) 100%);
+  position:relative;overflow:hidden;
+}
+.verse-block::before,.verse-block::after{
+  content:'';position:absolute;left:50%;width:1px;height:42px;
+  background:linear-gradient(to bottom,transparent,rgba(155,123,66,.4),transparent);
+  transform:translateX(-50%);
+}
+.verse-block::before{top:0}
+.verse-block::after{bottom:0}
+.verse-frame{
+  max-width:360px;margin:0 auto;
+  padding:34px 26px 30px;position:relative;text-align:center;
+  background:rgba(255,255,255,.55);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  border:1px solid rgba(155,123,66,.22);border-radius:6px;
+  box-shadow:0 14px 40px rgba(107,91,78,.10),inset 0 1px 0 rgba(255,255,255,.6);
+}
+.verse-orn{display:block;margin:0 auto;width:128px;height:18px;opacity:.85}
+.verse-quote-mark{
+  font-family:'Cormorant Garamond',serif;
+  font-size:62px;line-height:.4;
+  color:var(--peach-accent);opacity:.42;
+  margin:14px 0 8px;user-select:none;
+}
+.verse-text{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-weight:400;
+  font-size:19px;line-height:1.7;
+  color:var(--cream);letter-spacing:.3px;
+  padding:0 4px;
+}
+.verse-divider{
+  display:flex;align-items:center;justify-content:center;
+  margin:18px auto 12px;gap:10px;width:80%;
+}
+.verse-divider::before,.verse-divider::after{
+  content:'';height:1px;flex:1;
+  background:linear-gradient(to right,transparent,rgba(155,123,66,.55),transparent);
+}
+.verse-divider span{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--peach-accent);opacity:.7;flex:0 0 auto;
+}
+.verse-attribution{
+  font-family:'Cormorant Garamond',serif;
+  font-size:11px;font-weight:500;
+  letter-spacing:4.5px;text-transform:uppercase;
+  color:var(--peach-accent);
+}
   </style>
 </head>
 <body>
@@ -1628,6 +1690,25 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
   <div class="h-scroll" id="hScroll">
     <div class="h-scroll-line"></div>
     <span>Desliza</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════ 1.5 VERSÍCULO INICIAL ════════════ -->
+<section class="verse-block" id="verseStart">
+  <div class="verse-frame">
+    <svg class="verse-orn" viewBox="0 0 128 18" preserveAspectRatio="none" aria-hidden="true">
+      <line x1="0" y1="9" x2="38" y2="9" stroke="rgba(155,123,66,.55)" stroke-width="1"/>
+      <circle cx="44" cy="9" r="1.6" fill="rgba(155,123,66,.85)"/>
+      <path d="M52,9 Q58,3 64,9 Q58,15 52,9 Z" fill="none" stroke="rgba(155,123,66,.7)" stroke-width=".9"/>
+      <path d="M64,9 Q70,3 76,9 Q70,15 64,9 Z" fill="none" stroke="rgba(155,123,66,.7)" stroke-width=".9"/>
+      <circle cx="84" cy="9" r="1.6" fill="rgba(155,123,66,.85)"/>
+      <line x1="90" y1="9" x2="128" y2="9" stroke="rgba(155,123,66,.55)" stroke-width="1"/>
+    </svg>
+    <div class="verse-quote-mark">&ldquo;</div>
+    <p class="verse-text">Sean sus vidas tan unidas en amor, que lleguen a hacer una sola alma; y así, nada en el mundo podrá separarlos.</p>
+    <div class="verse-divider"><span></span></div>
+    <p class="verse-attribution">Mateo 19:6</p>
   </div>
 </section>
 
@@ -1806,13 +1887,6 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
     </div>
   </div>
 
-  <!-- Versículo bíblico introductorio -->
-  <div class="bible-verse" style="max-width:340px;margin:36px auto 0;padding:22px 18px;border-top:1px solid rgba(155,123,66,.32);border-bottom:1px solid rgba(155,123,66,.32);text-align:center">
-    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;line-height:1.65;color:var(--cream)">
-      «Sean sus vidas tan unidas en amor, que lleguen a hacer una sola alma; y así, nada en el mundo podrá separarlos».
-    </p>
-    <p style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--peach-accent);margin-top:14px">— Mateo 19:6 —</p>
-  </div>
 </section>
 
 
@@ -1937,12 +2011,12 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
         </svg>
       </div>
       <p class="dc-col-ttl">Caballeros</p>
-      <ul class="dc-list">
-        <li>Traje formal</li>
-        <li>Negro · Gris Oxford<br>Taupe · Verde sage</li>
-        <li>Camisa de vestir<br>con corbata o moño</li>
-        <li>Zapatos de vestir</li>
-      </ul>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--cream);opacity:.78;margin-top:6px;letter-spacing:.3px">Formal · Elegante</p>
+      <div class="dc-swatch-wrap" style="margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:10px">
+        <span style="display:block;width:54px;height:54px;border-radius:50%;background:#D4C5B2;border:1px solid rgba(107,91,78,.18);box-shadow:0 4px 14px rgba(107,91,78,.14),inset 0 1px 0 rgba(255,255,255,.5)"></span>
+        <span style="font-family:'Lato',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--peach-accent)">Color sugerido</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--cream);opacity:.7;letter-spacing:1.5px">#D4C5B2</span>
+      </div>
     </div>
 
     <!-- Damas -->
@@ -1954,12 +2028,12 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
         </svg>
       </div>
       <p class="dc-col-ttl">Damas</p>
-      <ul class="dc-list">
-        <li>Vestido largo o cocktail</li>
-        <li>Beige · Champagne<br>Verde sage · Tonos tierra</li>
-        <li>Tacones o sandalias<br>elegantes</li>
-        <li>Accesorios dorados</li>
-      </ul>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--cream);opacity:.78;margin-top:6px;letter-spacing:.3px">Formal · Elegante</p>
+      <div class="dc-swatch-wrap" style="margin-top:18px;display:flex;flex-direction:column;align-items:center;gap:10px">
+        <span style="display:block;width:54px;height:54px;border-radius:50%;background:#D4C5B2;border:1px solid rgba(107,91,78,.18);box-shadow:0 4px 14px rgba(107,91,78,.14),inset 0 1px 0 rgba(255,255,255,.5)"></span>
+        <span style="font-family:'Lato',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--peach-accent)">Color sugerido</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--cream);opacity:.7;letter-spacing:1.5px">#D4C5B2</span>
+      </div>
     </div>
   </div>
 
@@ -2034,11 +2108,44 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
 
   <div class="loc-card">
     <h3 class="loc-name" style="margin-top:6px">Hotel Fernando's</h3>
+    <div aria-hidden="true" style="display:flex;justify-content:center;align-items:center;gap:8px;margin:8px auto 6px;color:var(--peach-accent)">
+      <span style="display:block;width:32px;height:1px;background:linear-gradient(to right,transparent,rgba(155,123,66,.5))"></span>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-label="Hotel">
+        <path d="M3 21V8l9-5 9 5v13"/>
+        <path d="M3 21h18"/>
+        <rect x="7" y="11" width="2.5" height="2.5" rx=".3"/>
+        <rect x="11" y="11" width="2.5" height="2.5" rx=".3"/>
+        <rect x="15" y="11" width="2.5" height="2.5" rx=".3"/>
+        <rect x="7" y="15.5" width="2.5" height="2.5" rx=".3"/>
+        <rect x="15" y="15.5" width="2.5" height="2.5" rx=".3"/>
+        <path d="M10.5 21v-3.5h3V21"/>
+      </svg>
+      <span style="display:block;width:32px;height:1px;background:linear-gradient(to left,transparent,rgba(155,123,66,.5))"></span>
+    </div>
     <p class="loc-addr">Tlalpujahua, Michoacán</p>
     <a href="https://maps.app.goo.gl/H1c1SFziiFGNuTk78?g_st=iw" target="_blank" rel="noopener" class="btn btn-olive" style="max-width:280px;margin:14px auto 0;display:flex">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       Ver en Maps
     </a>
+  </div>
+</section>
+
+
+<!-- ═══════════════ 11.7 VERSÍCULO FINAL ═════════════ -->
+<section class="verse-block" id="verseEnd">
+  <div class="verse-frame">
+    <svg class="verse-orn" viewBox="0 0 128 18" preserveAspectRatio="none" aria-hidden="true">
+      <line x1="0" y1="9" x2="38" y2="9" stroke="rgba(155,123,66,.55)" stroke-width="1"/>
+      <circle cx="44" cy="9" r="1.6" fill="rgba(155,123,66,.85)"/>
+      <path d="M52,9 Q58,3 64,9 Q58,15 52,9 Z" fill="none" stroke="rgba(155,123,66,.7)" stroke-width=".9"/>
+      <path d="M64,9 Q70,3 76,9 Q70,15 64,9 Z" fill="none" stroke="rgba(155,123,66,.7)" stroke-width=".9"/>
+      <circle cx="84" cy="9" r="1.6" fill="rgba(155,123,66,.85)"/>
+      <line x1="90" y1="9" x2="128" y2="9" stroke="rgba(155,123,66,.55)" stroke-width="1"/>
+    </svg>
+    <div class="verse-quote-mark">&ldquo;</div>
+    <p class="verse-text">Porque iré a donde tú vayas, y viviré donde tú vivas; tu pueblo será mi pueblo, y tu Dios será mi Dios.</p>
+    <div class="verse-divider"><span></span></div>
+    <p class="verse-attribution">Rut 1:16</p>
   </div>
 </section>
 
@@ -2082,13 +2189,6 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
   <div class="gline" style="margin-top:22px"></div>
   <p class="ft-dt">19 · Diciembre · 2026</p>
   <p class="ft-note">Tlalpujahua · Michoacán<br>Con amor, los novios</p>
-
-  <div class="bible-verse" style="max-width:340px;margin:32px auto 0;padding:24px 18px;border-top:1px solid rgba(155,123,66,.32);border-bottom:1px solid rgba(155,123,66,.32);text-align:center">
-    <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;line-height:1.65;color:var(--cream)">
-      «Porque iré a donde tú vayas, y viviré donde tú vivas; tu pueblo será mi pueblo, y tu Dios será mi Dios».
-    </p>
-    <p style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--peach-accent);margin-top:14px">— Rut 1:16 —</p>
-  </div>
 
   <div class="el-sep"></div>
   <a href="https://www.instagram.com/elysium.invitaciones/" target="_blank" rel="noopener" class="el-credit">
