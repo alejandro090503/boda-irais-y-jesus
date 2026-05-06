@@ -2872,11 +2872,8 @@ function toast(msg) {
 
   let userPaused = false;
 
-  function autoStart(){
-    if (userPaused) return;
-    if (!audio.paused) return;
-    audio.play().catch(()=>{});
-  }
+  /* Intento inmediato — funciona si el usuario ya visitó el sitio antes */
+  audio.play().catch(()=>{});
 
   function removeAutoStart(){
     document.removeEventListener('click',      autoStartOnce, true);
@@ -2885,7 +2882,7 @@ function toast(msg) {
   }
   function autoStartOnce(e){
     if (e.target === btn || btn.contains(e.target)) return;
-    autoStart();
+    if (!userPaused && audio.paused) audio.play().catch(()=>{});
     removeAutoStart();
   }
   document.addEventListener('click',      autoStartOnce, true);
