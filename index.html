@@ -34,23 +34,52 @@ body{
 }
 section{padding:64px 22px}
 
-/* ── LOADER ───────────────────────────────────────────── */
+/* ── LOADER / SPLASH-SOBRE ────────────────────────────── */
 #loader{
   position:fixed;inset:0;z-index:9999;
-  background:var(--ink);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
+  background:#0d0b08;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  overflow:hidden;
 }
-.ld-names{
-  font-family:'Great Vibes',cursive;font-size:72px;color:var(--peach);
-  opacity:0;animation:ldFade .9s ease .3s forwards;
+.ld-img,.ld-video{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  display:block;
 }
-.ld-track{width:100px;height:1px;background:rgba(144,158,141,.18);overflow:hidden}
-.ld-bar{
-  height:100%;background:linear-gradient(to right,transparent,var(--peach));
-  width:0;animation:ldBar 1.3s var(--smooth) .5s forwards;
+.ld-img{
+  opacity:0;transition:opacity .6s ease;
 }
-@keyframes ldFade{to{opacity:1}}
-@keyframes ldBar{to{width:100%}}
+.ld-img.ready{opacity:1}
+.ld-video{
+  opacity:0;pointer-events:none;
+  transition:opacity .3s ease;
+}
+.ld-hint{
+  position:absolute;bottom:14%;left:50%;transform:translateX(-50%);
+  z-index:2;text-align:center;pointer-events:none;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  opacity:0;transition:opacity .5s ease .8s;
+}
+.ld-img.ready ~ .ld-hint{opacity:1}
+.ld-hint-text{
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;letter-spacing:5px;text-transform:uppercase;
+  color:#fff;font-weight:500;
+  text-shadow:0 2px 16px rgba(0,0,0,.85),0 0 40px rgba(0,0,0,.6);
+}
+.ld-hint-pulse{
+  width:52px;height:52px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.75);
+  background:rgba(0,0,0,.35);
+  display:flex;align-items:center;justify-content:center;
+  animation:ldPulse 2s ease-in-out infinite;
+}
+@keyframes ldPulse{
+  0%,100%{transform:scale(1);opacity:.75;box-shadow:0 0 0 0 rgba(255,255,255,.3)}
+  50%    {transform:scale(1.06);opacity:1;box-shadow:0 0 0 12px rgba(255,255,255,0)}
+}
 
 /* ── PROGRESS BAR ─────────────────────────────────────── */
 #prog{
@@ -1593,10 +1622,22 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
 </head>
 <body>
 
-<!-- LOADER -->
+<!-- LOADER / SPLASH-SOBRE -->
 <div id="loader">
-  <div class="ld-names">J &amp; I</div>
-  <div class="ld-track"><div class="ld-bar"></div></div>
+  <img id="ldImg" class="ld-img" src="sobre.jpg" alt="Sobre de invitación"
+       onload="this.classList.add('ready')">
+  <video id="ldVideo" class="ld-video" src="sobre-abre.mp4"
+         playsinline muted preload="auto"></video>
+  <div class="ld-hint">
+    <p class="ld-hint-text">Toca para abrir</p>
+    <div class="ld-hint-pulse">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+           stroke="#fff" stroke-width="1.7"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v0M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8l4 4h6a2 2 0 0 0 2-2v-2.5"/>
+      </svg>
+    </div>
+  </div>
 </div>
 
 <!-- SCROLL PROGRESS -->
@@ -2178,8 +2219,15 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
 document.addEventListener('DOMContentLoaded', () => {
   gsap.registerPlugin(ScrollTrigger);
 
-  // Remove loader → boot everything
-  setTimeout(() => {
+  // ── Splash-sobre: tap → video → loader fadeout → boot ──
+  const loader  = document.getElementById('loader');
+  const ldImg   = document.getElementById('ldImg');
+  const ldVideo = document.getElementById('ldVideo');
+  const ldHint  = document.querySelector('.ld-hint');
+  let opened    = false;
+
+  function fadeLoaderAndBoot(){
+    // Mismo fadeout + onComplete que el loader original
     gsap.to('#loader', {
       opacity: 0, duration: .7, ease: 'power2.out',
       onComplete() {
@@ -2198,7 +2246,26 @@ document.addEventListener('DOMContentLoaded', () => {
         initGallery();
       }
     });
-  }, 1700);
+  }
+
+  function openEnvelope(){
+    if (opened) return;
+    opened = true;
+    // Oculta imagen y hint, muestra video y reproduce
+    ldImg.style.opacity = '0';
+    if (ldHint) ldHint.style.opacity = '0';
+    setTimeout(() => {
+      ldVideo.style.opacity = '1';
+      ldVideo.play().catch(()=>{});
+    }, 280);
+    // Cuando termine el video, dispara el fadeout original
+    ldVideo.addEventListener('ended', fadeLoaderAndBoot, { once: true });
+    // Fallback si el video falla o tarda demasiado
+    setTimeout(fadeLoaderAndBoot, 9000);
+  }
+
+  loader.addEventListener('click',      openEnvelope, { once: true });
+  loader.addEventListener('touchstart', openEnvelope, { once: true, passive: true });
 });
 
 /* ── SCROLL PROGRESS ─────────────────────────────────── */
