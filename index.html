@@ -225,19 +225,31 @@ section{padding:64px 22px}
 .h-div::after{background:linear-gradient(to left,transparent,var(--peach))}
 .h-div-dot{font-size:10px;color:var(--peach);letter-spacing:6px}
 
-/* ── NOMBRES EN ARCO — PARTE SUPERIOR DEL HERO ──────── */
+/* ── NOMBRES EN ARCO — DOS ESQUINAS SUPERIORES ────────── */
 .h-names-arch{
   position:absolute;top:0;left:0;right:0;
   z-index:5;pointer-events:none;
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding:18px 4px 0;
 }
-.h-arch-svg{
-  width:100%;overflow:visible;display:block;
+.h-arch-name{
+  font-family:'Great Vibes',cursive;
+  font-size:80px;
+  line-height:1;
+  color:#fff;
+  text-shadow:
+    0 2px 28px rgba(0,0,0,.55),
+    0 0 48px rgba(255,255,255,.25);
 }
-.h-arch-text{
-  font-family:'Cormorant Garamond',serif;
-  font-style:italic;font-weight:300;
-  fill:#4A3E35;
-  filter:drop-shadow(0 2px 18px rgba(255,255,255,.95)) drop-shadow(0 1px 3px rgba(74,62,53,.2));
+.h-arch-name--left{
+  transform:rotate(-9deg);
+  transform-origin:bottom right;
+  margin-left:6px;
+}
+.h-arch-name--right{
+  transform:rotate(9deg);
+  transform-origin:bottom left;
+  margin-right:6px;
 }
 
 /* Ampersand centrado absolutamente */
@@ -259,6 +271,7 @@ section{padding:64px 22px}
   bottom:88px;left:50%;
   transform:translateX(-50%);
   z-index:5;
+  width:max-content;max-width:88vw;
 }
 
 .h-date-wrap{
@@ -274,12 +287,23 @@ section{padding:64px 22px}
 }
 .h-date{
   font-family:'Cormorant Garamond',serif;
-  font-size:15px;letter-spacing:6px;text-transform:uppercase;
-  color:var(--cream);font-weight:500;
+  font-size:28px;letter-spacing:2px;
+  color:var(--cream);font-weight:400;
+  line-height:1.2;
+}
+.h-date-day{
+  font-size:38px;font-weight:300;display:block;letter-spacing:0;
+  font-family:'Cormorant Garamond',serif;color:var(--cream);
+}
+.h-date-sep{
+  display:block;width:36px;height:1px;
+  background:linear-gradient(to right,transparent,var(--peach),transparent);
+  margin:8px auto;
 }
 .h-city{
-  font-size:9.5px;letter-spacing:4.5px;text-transform:uppercase;
-  color:var(--peach-accent);opacity:.95;margin-top:8px;font-weight:500;
+  font-size:10px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--peach-accent);opacity:.95;margin-top:6px;font-weight:500;
+  line-height:1.7;
 }
 
 /* Scroll cue */
@@ -1641,20 +1665,10 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
 
   <div class="h-particles" id="hPart"></div>
 
-  <!-- Nombres en arco superior -->
+  <!-- Nombres en esquinas superiores con rotación -->
   <div class="h-names-arch" id="hNamesArch">
-    <svg class="h-arch-svg" viewBox="0 0 430 135" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <path id="arcIrais" d="M 8,128 C 55,18 185,2 215,2"/>
-        <path id="arcJesus" d="M 215,2 C 245,2 375,18 422,128"/>
-      </defs>
-      <text class="h-arch-text" font-size="52">
-        <textPath href="#arcIrais" startOffset="4%">Irais</textPath>
-      </text>
-      <text class="h-arch-text" font-size="52">
-        <textPath href="#arcJesus" startOffset="4%">Jesús</textPath>
-      </text>
-    </svg>
+    <span class="h-arch-name h-arch-name--left">Irais</span>
+    <span class="h-arch-name h-arch-name--right">Jesús</span>
   </div>
 
   <!-- Ampersand centrado sobre la foto -->
@@ -1663,8 +1677,12 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
   <!-- Card de fecha cerca de los pies -->
   <div class="h-date-abs">
     <div class="h-date-wrap" id="hDate">
-      <p class="h-date">19 · Diciembre · 2026</p>
-      <p class="h-city">Tlalpujahua · Michoacán</p>
+      <p class="h-date">
+        <span class="h-date-day">19</span>
+        Diciembre · 2026
+      </p>
+      <span class="h-date-sep"></span>
+      <p class="h-city">Tlalpujahua<br>Michoacán</p>
     </div>
   </div>
 
