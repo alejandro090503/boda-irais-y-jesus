@@ -1646,9 +1646,10 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
 <!-- TOAST -->
 <div id="toast"></div>
 
-<!-- AUDIO ambiental — DESHABILITADO MOMENTÁNEAMENTE -->
-<!--
+<!-- AUDIO ambiental -->
 <audio id="bgMusic" src="admv.mp3" loop preload="auto"></audio>
+
+<!-- BOTÓN flotante de música -->
 <button id="musicBtn" class="music-btn" aria-label="Música de fondo">
   <svg id="musicIcoPlay" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
     <path d="M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm12-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1658,7 +1659,6 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
     <rect x="14" y="4" width="4" height="16" rx="1.5" fill="currentColor"/>
   </svg>
 </button>
--->
 
 
 <!-- ═══════════════ 1. HERO ════════════════════════════ -->
@@ -2251,6 +2251,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function openEnvelope(){
     if (opened) return;
     opened = true;
+    // Arranca la música de fondo (gesto del usuario confirmado)
+    const bgAudio = document.getElementById('bgMusic');
+    if (bgAudio) bgAudio.play().catch(()=>{});
     // Oculta imagen y hint, muestra video y reproduce
     ldImg.style.opacity = '0';
     if (ldHint) ldHint.style.opacity = '0';
