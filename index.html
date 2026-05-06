@@ -225,85 +225,72 @@ section{padding:64px 22px}
 .h-div::after{background:linear-gradient(to left,transparent,var(--peach))}
 .h-div-dot{font-size:10px;color:var(--peach);letter-spacing:6px}
 
-/* ── NOMBRES EN ARCO — DOS ESQUINAS SUPERIORES ────────── */
+/* ── NOMBRES — DOS ESQUINAS SUPERIORES CON CURVA NATURAL ─ */
 .h-names-arch{
   position:absolute;top:0;left:0;right:0;
   z-index:5;pointer-events:none;
   display:flex;justify-content:space-between;align-items:flex-start;
-  padding:18px 4px 0;
+  padding:14px 0 0;
 }
 .h-arch-name{
   font-family:'Great Vibes',cursive;
-  font-size:80px;
+  font-size:82px;
   line-height:1;
   color:#fff;
   text-shadow:
-    0 2px 28px rgba(0,0,0,.55),
-    0 0 48px rgba(255,255,255,.25);
+    0 2px 32px rgba(0,0,0,.6),
+    0 1px 8px rgba(0,0,0,.4),
+    0 0 52px rgba(255,255,255,.2);
+  display:block;
 }
 .h-arch-name--left{
-  transform:rotate(-9deg);
-  transform-origin:bottom right;
-  margin-left:6px;
+  transform:rotate(-8deg);
+  transform-origin:top left;
+  margin-left:-4px;
+  margin-top:52px; /* Irais baja para equilibrio visual */
 }
 .h-arch-name--right{
-  transform:rotate(9deg);
-  transform-origin:bottom left;
-  margin-right:6px;
+  transform:rotate(8deg);
+  transform-origin:top right;
+  margin-right:-4px;
 }
 
-/* Ampersand centrado absolutamente */
-.h-amp-abs{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-52%);
-  z-index:5;
-  font-family:'Great Vibes',cursive;
-  font-size:88px;
-  color:var(--peach);
-  text-shadow:0 2px 18px rgba(255,255,255,.85),0 0 36px rgba(144,158,141,.55);
-  will-change:transform;
-  pointer-events:none;
-}
-
-/* Card de fecha — cerca de los pies */
+/* Card de fecha — pildora editorial minimalista cerca de los pies */
 .h-date-abs{
   position:absolute;
-  bottom:88px;left:50%;
+  bottom:82px;left:50%;
   transform:translateX(-50%);
   z-index:5;
-  width:max-content;max-width:88vw;
+  width:max-content;max-width:86vw;
 }
 
 .h-date-wrap{
   margin:0;position:relative;
-  max-width:280px;padding:18px 22px 16px;
-  background:rgba(255,255,255,.32);
-  -webkit-backdrop-filter:blur(14px) saturate(140%);
-  backdrop-filter:blur(14px) saturate(140%);
-  border:1px solid rgba(255,255,255,.55);
-  border-radius:14px;
-  box-shadow:0 8px 28px rgba(107,91,78,.18),inset 0 1px 0 rgba(255,255,255,.6);
+  padding:12px 28px 14px;
+  background:rgba(255,255,255,.07);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:60px;
   text-align:center;
+  box-shadow:none;
 }
 .h-date{
   font-family:'Cormorant Garamond',serif;
-  font-size:28px;letter-spacing:2px;
-  color:var(--cream);font-weight:400;
-  line-height:1.2;
-}
-.h-date-day{
-  font-size:38px;font-weight:300;display:block;letter-spacing:0;
-  font-family:'Cormorant Garamond',serif;color:var(--cream);
+  font-size:15px;letter-spacing:5px;text-transform:uppercase;
+  color:#fff;font-weight:400;
+  line-height:1;
+  text-shadow:0 1px 10px rgba(0,0,0,.45);
 }
 .h-date-sep{
-  display:block;width:36px;height:1px;
-  background:linear-gradient(to right,transparent,var(--peach),transparent);
-  margin:8px auto;
+  display:block;width:28px;height:1px;
+  background:rgba(255,255,255,.4);
+  margin:7px auto;
 }
 .h-city{
-  font-size:10px;letter-spacing:4px;text-transform:uppercase;
-  color:var(--peach-accent);opacity:.95;margin-top:6px;font-weight:500;
-  line-height:1.7;
+  font-size:9px;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(255,255,255,.75);margin-top:0;font-weight:400;
+  line-height:1;
 }
 
 /* Scroll cue */
@@ -1671,18 +1658,12 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
     <span class="h-arch-name h-arch-name--right">Jesús</span>
   </div>
 
-  <!-- Ampersand centrado sobre la foto -->
-  <div class="h-amp-abs" id="hAmp">&amp;</div>
-
   <!-- Card de fecha cerca de los pies -->
   <div class="h-date-abs">
     <div class="h-date-wrap" id="hDate">
-      <p class="h-date">
-        <span class="h-date-day">19</span>
-        Diciembre · 2026
-      </p>
+      <p class="h-date">19 · Diciembre · 2026</p>
       <span class="h-date-sep"></span>
-      <p class="h-city">Tlalpujahua<br>Michoacán</p>
+      <p class="h-city">Tlalpujahua · Michoacán</p>
     </div>
   </div>
 
@@ -2230,15 +2211,13 @@ window.addEventListener('scroll', () => {
 function heroAnim() {
   // Set initial states
   gsap.set(['#hDate','#hScroll'], { opacity: 0 });
-  gsap.set('#hNamesArch', { opacity: 0, y: 20 });
-  gsap.set('#hAmp', { opacity: 0, scale: .7 });
+  gsap.set('#hNamesArch', { opacity: 0, y: 16 });
 
   const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
   tl
     .to('#hNamesArch', { opacity: 1, y: 0, duration: 1.1 }, .2)
-    .to('#hAmp',       { opacity: 1, scale: 1, duration: .9 }, .7)
-    .to('#hDate',      { opacity: 1, duration: .7 }, 1.2)
-    .to('#hScroll',    { opacity: 1, duration: .5 }, 1.7);
+    .to('#hDate',      { opacity: 1, duration: .7 }, 1.0)
+    .to('#hScroll',    { opacity: 1, duration: .5 }, 1.6);
 
   // Hero parallax
   gsap.to('#heroBg', {
